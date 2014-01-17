@@ -1,0 +1,19 @@
+common: &common
+  facebook:
+    key: 'asdjhasxas'
+    secret : 'xyz'
+  twitter:
+    key: 'asdjhasxas'
+    secret : 'abx'
+
+development:
+  <<: *common
+  couchdb:
+    database: 'freemdm'
+    url: 'http://localhost:5984'
+
+test:
+  <<: *common
+
+production:
+  <<: *common
