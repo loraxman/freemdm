@@ -43,3 +43,6 @@ gem 'sdoc',                              group: :doc, require: false
 gem 'tzinfo'
 gem 'tzinfo-data'
 gem 'angularjs-rails'
+
+#gem 'couchrest'
+gem 'couchrest_model'
