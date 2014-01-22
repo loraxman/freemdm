@@ -46,3 +46,5 @@ gem 'angularjs-rails'
 
 #gem 'couchrest'
 gem 'couchrest_model'
+
+gem "twitter-bootstrap-rails"
