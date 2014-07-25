@@ -4,6 +4,9 @@
   <h1>{{ title }}</h1>
  
   <ul>
-  <li ng-repeat="mdmmodel in mdmmodels">{{mdmmodel.name}} </li>
+  <div ng-repeat="mdmmodel in mdmmodels">{{mdmmodel.name}}
+  		{{ mdmmodel.mdm_objects[0].name }}
+  		<li ng-repeat="mdmobject in mdmmodel.mdm_objects">{{ mdmobject.name}} </li>
+   </div>
 </ul>
 </div>
