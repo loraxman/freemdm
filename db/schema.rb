@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20140725142058) do
 
   create_table "mdm_foreign_keys", force: true do |t|
     t.integer "mdm_column_id"
-    t.integer "mdm_object"
+    t.integer "mdm_object_id"
   end
 
   create_table "mdm_models", force: true do |t|
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20140725142058) do
 
   create_table "mdm_primary_keys", force: true do |t|
     t.integer "mdm_column_id"
-    t.integer "mdm_object"
+    t.integer "mdm_object_id"
   end
 
 end

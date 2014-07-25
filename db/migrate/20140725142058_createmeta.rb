@@ -11,17 +11,16 @@ class Createmeta < ActiveRecord::Migration
       t.integer :mdm_object_id
       t.string :precision
       t.string :scale
-
     end
     
     create_table :mdm_primary_keys do |t|
       t.integer :mdm_column_id
-      t.integer :mdm_object
+      t.integer :mdm_object_id
     end
 
     create_table :mdm_foreign_keys do |t|
       t.integer :mdm_column_id
-      t.integer :mdm_object
+      t.integer :mdm_object_id
     end
     
     create_table :mdm_objects do |t|

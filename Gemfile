@@ -48,3 +48,6 @@ gem 'angularjs-rails'
 #gem 'couchrest_model'
 
 gem "twitter-bootstrap-rails"
+gem 'activerecord-jdbc-adapter'
+gem 'jdbc-mysql'
+
