@@ -1,6 +1,5 @@
-class MdmModel < CouchRest::Model::Base
-	include CouchRest::Model::Embeddable
-	property :mdmobjects, [MdmObject]
+class MdmModel < ActiveRecord::Base
+	has_many :mdm_objects
 end
 
 
