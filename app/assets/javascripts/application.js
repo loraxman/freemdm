@@ -18,4 +18,6 @@
 
 //= require angular
 //= require bootstrap
+//= require raphael
+//= require intro
 

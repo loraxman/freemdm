@@ -1,7 +1,8 @@
 function IndexCtrl($scope,$http) {
     $scope.title = 'Hola amigos!';
-
-	
+       startit();
+		kaboom();
+		setInterval(redraw, 3000);
 	
 	$http({method: 'GET', url: '/api/mdm_models'}).
     success(function(data, status, headers, config) {
@@ -9,8 +10,8 @@ function IndexCtrl($scope,$http) {
       // when the response is available
       $scope.mdmmodels = data;
       
-      console.log($scope.mdmmodels);
+   
     });
 
-
 };
+
