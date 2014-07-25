@@ -55,4 +55,9 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  
+  #sample api names space
+  namespace :api, defaults: {format: :json} do
+    resources :mdm_models
+  end
 end

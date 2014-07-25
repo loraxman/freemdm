@@ -1,3 +1,3 @@
 function IndexCtrl($scope) {
-    $scope.title = 'Hola!';
+    $scope.title = 'Hola amigos!';
 }
