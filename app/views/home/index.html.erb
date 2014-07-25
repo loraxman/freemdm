@@ -2,4 +2,8 @@
 <p>Find me in app/views/home/index.html.erb</p>
 <div ng-controller="IndexCtrl">
   <h1>{{ title }}</h1>
+ 
+  <ul>
+  <li ng-repeat="mdmmodel in mdmmodels">{{mdmmodel.name}} </li>
+</ul>
 </div>
