@@ -1,0 +1,29 @@
+
+   <div ng-controller="<%= @mdm_object.name %>Controller">
+    <form novalidate class="simple-form">
+    <% @mdm_object.mdm_columns.each do |mdmcol| %>
+    	<%= mdmcol.name %>:<input type="text" ng-model="<%= @mdm_object.name %>.<%= mdmcol.name %>" >
+    <% end %>
+      <button ng-click="reset()">RESET</button>
+      <button ng-click="update(firstobj)">SAVE</button>
+    </form>
+    <pre>form = {{user | json}}</pre>
+    <pre>master = {{master | json}}</pre>
+  </div>
+
+  
+  <script>
+  
+  function <%= @mdm_object.name%>Controller($scope,$http) {
+    $scope.title = 'Hola amigos!';
+	
+	$scope.update = function(firstobj) {
+		alert(firstobj.name);
+	}
+	
+
+
+};
+
+  
+  </script>
