@@ -6,11 +6,12 @@ class AngularGenerator
   def generate_angular
     generate_form
     generate_controller
+    write_to_appdir
   end
   
   def generate_form
 =begin
-   <div ng-controller="ExampleController">
+   <div ng-controller="#{@table.name}Controller">
     <form novalidate class="simple-form">
       Name: <input type="text" ng-model="user.name" /><br />
       E-mail: <input type="email" ng-model="user.email" /><br />
@@ -43,6 +44,10 @@ class AngularGenerator
          $scope.reset();
        }]);  
 =end
+  end
+  
+  def write_to_appdir
+  end
   end
   
 end
