@@ -50,4 +50,3 @@ class AngularGenerator
   end
   end
   
-end

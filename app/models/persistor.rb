@@ -6,7 +6,8 @@ class Persistor
 	
 	#grab schemas here and build the group of MDMObjects 
 	# per table
-	def retrieve_database_meta(adapter,host,username,password,database)
+	#NOTE: Do we assume a new model?
+	def retrieve_database_meta(modelname, adapter,host,username,password,database)
     connection = ActiveRecord::Base.establish_connection(
          :adapter  => adapter,
          :host     => host,
@@ -14,21 +15,28 @@ class Persistor
          :password => password,
          :database => database
        )
+    mdm_model = MdmModel.new
+    mdm_model.name = modelname
+    
     metaconnect = connection.connection
-    t = "mdm_objects"
-    puts metaconnect
-    puts metaconnect.columns(t)[1].name
+    mdmtype=MdmDataType.first
     metaconnect.tables.each do |table|
-      puts table
-      begin
+      mdmexist = MdmObject.find_by_name(table)
+      mdmexist.destroy if mdmexist
+      mdmobject = MdmObject.new
+      mdmobject.name=table
       metaconnect.columns(table.to_s).each do |col|
-        print col.name + ", "
+          print col.name + ", "
+          mdmcolumn = MdmColumn.new
+          mdmcolumn.name = col.name
+          mdmcolumn.mdm_data_type = mdmtype
+          mdmcolumn.save
+          mdmobject.mdm_columns << mdmcolumn
       end
-      puts
-      rescue 
-        puts 'err'
-      end
+      mdmobject.save
+      mdm_model.mdm_objects << mdmobject
     end
+    mdm_model.save
 	end
 	
 	#serialize an mdm_object 
