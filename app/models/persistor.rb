@@ -44,7 +44,13 @@ class Persistor
     puts urltemplate
     curr_connect = ActiveRecord::Base.connection
     if adapter=="mysql"
-    
+      arconfig = {
+      :adapter  => adapter,
+      :host     => host,
+      :username => username,
+      :password => password,
+      :database => database }
+
       connection = ActiveRecord::Base.establish_connection(
            :adapter  => adapter,
            :host     => host,
@@ -55,6 +61,12 @@ class Persistor
     else
     #  jdbc = JDBCAR.new
     #  connection = jdbc.connect(driver,username,password,urltemplate)
+      arconfig = {:adapter => 'jdbc',
+        :driver => driver,
+        :username => username,
+        :password => password,
+        :url => urltemplate,
+      :pool => 2}
       config = ActiveRecord::ConnectionAdapters::ConnectionSpecification.new( {
               :adapter => 'jdbc',
               :driver => driver,
@@ -108,6 +120,7 @@ class Persistor
     end
 
     mdm_model.save
+    generate_active_record(mdm_model,arconfig)
 	end
 	
 	
@@ -175,4 +188,28 @@ class Persistor
   
 	def serialize(row)
 	end
+	
+  def generate_active_record(mdm_model, config)
+    #do the code to create new classes based on model metadata
+    #and load them up in the Ruby VM
+    #below NOTE! Need table created first for AR
+     #AR provides a #column_names method that returns an array of column names
+    
+    mdm_model.mdm_objects.each do |mdm_object|
+       klass = Class.new ActiveRecord::Base do
+         #establish_connection(config)
+     
+         def name
+           
+         end
+       end
+     
+   
+      puts mdm_object.name.capitalize
+      Object.const_set mdm_object.name.capitalize, klass
+     
+      klass.establish_connection(config)
+    end
+  
+  end
 end
