@@ -1,5 +1,20 @@
 class Persistor
 
+  class JDBCAR < ActiveRecord::Base
+    def connect(driver, username,password, urltemplate)
+   
+      connection = ActiveRecord::Base.establish_connection(
+        :adapter => 'jdbc',
+        :driver => driver,
+        :username => username,
+        :password => password,
+      
+        :url => urltemplate)
+      return connection
+
+    end
+  end
+  
 	#ddl or metadata to db where required
 	def promote(model)
 	end
@@ -7,38 +22,97 @@ class Persistor
 	#grab schemas here and build the group of MDMObjects 
 	# per table
 	#NOTE: Do we assume a new model?
-	def retrieve_database_meta(modelname, adapter,host,username,password,database)
-    connection = ActiveRecord::Base.establish_connection(
-         :adapter  => adapter,
-         :host     => host,
-         :username => username,
-         :password => password,
-         :database => database
-       )
-    mdm_model = MdmModel.new
-    mdm_model.name = modelname
+	def retrieve_database_meta(modelname, adapter,driver,host,username,password,database,urltemplate)
+=begin	  
+    :adapter => 'jdbc',
+      :driver => 'oracle.jdbc.OracleDriver',
+      :url => jdbc:oracle:thin:#{userid}/#{password}@#{host_name}:1521:#{db_name}"
+    )
     
-    metaconnect = connection.connection
+    "jdbc:mysql://{host}/{database}?" +
+                                       "user={username}&password={password}"
+     jdbc:mysql://localhost/HerongDB?user=Herong&password=TopSecret
+    jdbc:mysql://localhost/freemdm?user=root&password=password
+    urlfull = urltemplate
+=end   
+    urltemplate.gsub!("{host}",host)
+    urltemplate.gsub!("{password}",password)
+    urltemplate.gsub!("{username}",username)
+    urltemplate.gsub!("{database}",database)
     mdmtype=MdmDataType.first
+
+    puts urltemplate
+    curr_connect = ActiveRecord::Base.connection
+    if adapter=="mysql"
+    
+      connection = ActiveRecord::Base.establish_connection(
+           :adapter  => adapter,
+           :host     => host,
+           :username => username,
+           :password => password,
+           :database => database
+         )
+    else
+    #  jdbc = JDBCAR.new
+    #  connection = jdbc.connect(driver,username,password,urltemplate)
+      config = ActiveRecord::ConnectionAdapters::ConnectionSpecification.new( {
+              :adapter => 'jdbc',
+              :driver => driver,
+              :username => username,
+              :password => password,
+            
+              :url => urltemplate,
+                :pool => 2
+              }, 'jdbc_connection')
+            puts "===================="
+              
+      connection = ActiveRecord::ConnectionAdapters::ConnectionPool.new(config)
+    end
+    
+	  newtables={}
+	    puts "past here"
+    metaconnect = connection.checkout
+    puts "DONE!"
     metaconnect.tables.each do |table|
+      newtables[table] = [] 
+      
+      metaconnect.columns(table.to_s).each do |col|
+          newtables[table] << col.name
+          print col.name + ", "
+      end
+    end
+    
+    puts "*" * 80
+    connection.checkin metaconnect
+  
+#    connection = ActiveRecord::Base.establish_connection :development
+    print connection
+   
+    mdm_model = MdmModel.new
+    puts "newmodel"
+    mdm_model.name = modelname
+    newtables.keys.each do |table|
       mdmexist = MdmObject.find_by_name(table)
       mdmexist.destroy if mdmexist
       mdmobject = MdmObject.new
       mdmobject.name=table
-      metaconnect.columns(table.to_s).each do |col|
-          print col.name + ", "
-          mdmcolumn = MdmColumn.new
-          mdmcolumn.name = col.name
-          mdmcolumn.mdm_data_type = mdmtype
-          mdmcolumn.save
-          mdmobject.mdm_columns << mdmcolumn
+      newtables[table].each do |col|
+        mdmcolumn = MdmColumn.new
+        mdmcolumn.name = col
+        mdmcolumn.mdm_data_type = mdmtype
+        mdmcolumn.save
+        mdmobject.mdm_columns << mdmcolumn
       end
-      mdmobject.save
       mdm_model.mdm_objects << mdmobject
+
     end
+
     mdm_model.save
 	end
 	
+	
+	def test
+	end
 	#serialize an mdm_object 
 	#could be that the class is generated at runtime like AR and this is an 
 	#AR instnce or it is a hash/json
