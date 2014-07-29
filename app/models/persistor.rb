@@ -205,6 +205,7 @@ class Persistor
        end
      
    
+       #NOTE will need some adjustments to fit legacy tables to AR
       puts mdm_object.name.capitalize
       Object.const_set mdm_object.name.capitalize, klass
      
