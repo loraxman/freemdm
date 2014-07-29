@@ -1,5 +1,6 @@
-
-   <div ng-controller="<%= @mdm_object.name %>Controller">
+<div id="mdm_maint">
+	<h1><%= @mdm_object.name %></h1>
+   <div  ng-controller="<%= @mdm_object.name %>Controller">
     <form novalidate class="simple-form">
     <% @mdm_object.mdm_columns.each do |mdmcol| %>
     	<%= mdmcol.name %>:<input type="text" ng-model="<%= @mdm_object.name %>.<%= mdmcol.name %>" ><br/>
@@ -7,7 +8,7 @@
     <button ng-click="update(<%= @mdm_object.name%>)">SAVE</button>
     </form>
   </div>
-
+</div>
   
   <script>
   
