@@ -130,61 +130,7 @@ class Persistor
 	#could be that the class is generated at runtime like AR and this is an 
 	#AR instnce or it is a hash/json
 	
-	def temp
-
-  	#below NOTE! Need table created first for AR
-    #AR provides a #column_names method that returns an array of column names
-    klass = Class.new ActiveRecord::Base do
-      establish_connection(
-          :adapter  => "mysql",
-          :host     => "localhost",
-          :username => "myuser",
-          :password => "mypass",
-          :database => "somedatabase"
-        )
-    
-      def name
-        "#{super} Doe"
-      end
-    end
-    
-    module Company
-    end
-    
-    Company.const_set "Employee", klass
-    
-    puts Company::Employee.new.name # prints "Jon Doe"
-    
-    
-    #below example of how to connect at runtime for Active Record.
-    ActiveRecord::Base.establish_connection(
-      :adapter  => "mysql",
-      :host     => "localhost",
-      :username => "myuser",
-      :password => "mypass",
-      :database => "somedatabase"
-    )
-    
-    # model in the "default" database from database.yml
-    class Person < ActiveRecord::Base
-    
-      # ... your stuff here
-    
-    end
-    
-    # model in a different database
-    class Place < ActiveRecord::Base
-    
-      establish_connection(
-          :adapter  => "mysql",
-          :host     => "localhost",
-          :username => "myuser",
-          :password => "mypass",
-          :database => "somedatabase"
-        )
-    
-    end
-	end
+	
   
 	def serialize(row)
 	end
@@ -198,9 +144,15 @@ class Persistor
     mdm_model.mdm_objects.each do |mdm_object|
        klass = Class.new ActiveRecord::Base do
          #establish_connection(config)
-       #  set_table_name mdm_object.name
-        self.primary_keys = :user_id, :group_id
-   #      set_primary_keys :feature_id, :attribute_name
+         
+         #AR to set the physical tablename
+         self.table_name = mdm_object.name
+         
+         #below does composite keys!
+        #self.primary_keys = :user_id, :group_id
+         #note this is FK implementation
+         #  has_many :statuses, :class_name => 'MembershipStatus', :foreign_key => [:user_id, :group_id]
+
          def name
            
          end
