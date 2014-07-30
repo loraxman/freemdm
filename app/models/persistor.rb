@@ -198,7 +198,9 @@ class Persistor
     mdm_model.mdm_objects.each do |mdm_object|
        klass = Class.new ActiveRecord::Base do
          #establish_connection(config)
-     
+       #  set_table_name mdm_object.name
+        self.primary_keys = :user_id, :group_id
+   #      set_primary_keys :feature_id, :attribute_name
          def name
            
          end

@@ -1,4 +1,6 @@
-Rails.application.configure do
+Freemdm::Application.configure do
+  #above line doen for 4.0.0.rc1 need to uncomment below for 4.1
+#Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on

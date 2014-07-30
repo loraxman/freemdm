@@ -2,14 +2,17 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.0.beta1'
-
+#gem 'rails', '4.1.0.beta1'
+gem 'rails', '~> 4.0.0.rc1'
+#gem 'railties','4.0.0.rc1'
 # Use jdbcsqlite3 as the database for Active Record
 gem 'activerecord-jdbcsqlite3-adapter'
 
 # Use SCSS for stylesheets
+#gem 'sass-rails', '~> 4.0.0.rc1'
 gem 'sass-rails', '~> 4.0.0.rc1'
-
+ #gem 'sass-rails', '~> 4.0.0.rc1'
+ 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
@@ -50,4 +53,8 @@ gem 'angularjs-rails'
 gem "twitter-bootstrap-rails"
 gem 'activerecord-jdbc-adapter'
 gem 'jdbc-mysql'
-
+#gem 'composite_primary_keys', {
+#  :git => 'https://github.com/composite-primary-keys/composite_primary_keys.git',
+#  :branch => 'ar_4.1.x'
+#}
+gem 'composite_primary_keys'
