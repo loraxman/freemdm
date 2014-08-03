@@ -107,6 +107,7 @@ class Persistor
    
     mdm_model = MdmModel.find_by_name(modelname) 
     mdm_model = MdmModel.new if mdm_model.nil? 
+    mdm_model.connect_src = serialize_config(adapter,driver,host,username,password,database,urltemplate)
     puts "newmodel"
     mdm_model.name = modelname
     newtables.keys.each do |table|
@@ -130,7 +131,10 @@ class Persistor
 	end
 	
 	
-	def test
+	def serialize_config(adapter,driver,host,username,password,database,urltemplate)
+	  config_hash = {:adapter=>adapter,:driver=>driver,:host=>host,:username=>username,:password=>password,:database=>database,
+	  :urltemplate=>urltemplate}
+	  config_hash.to_json
 	end
 	#serialize an mdm_object 
 	#could be that the class is generated at runtime like AR and this is an 
