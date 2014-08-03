@@ -35,6 +35,7 @@ class Persistor
     jdbc:mysql://localhost/freemdm?user=root&password=password
     urlfull = urltemplate
 =end   
+	  puts 'called'
     urltemplate.gsub!("{host}",host)
     urltemplate.gsub!("{password}",password)
     urltemplate.gsub!("{username}",username)
@@ -51,13 +52,18 @@ class Persistor
       :password => password,
       :database => database }
 
-      connection = ActiveRecord::Base.establish_connection(
-           :adapter  => adapter,
-           :host     => host,
-           :username => username,
-           :password => password,
-           :database => database
-         )
+      config = ActiveRecord::ConnectionAdapters::ConnectionSpecification.new( {
+              :adapter => adapter,
+              :driver => driver,
+              :username => username,
+              :password => password,
+              :host  => host,
+              :url => urltemplate,
+                :pool => 2
+              }, 'mysql_connection')
+
+      connection = ActiveRecord::ConnectionAdapters::ConnectionPool.new(config)
+
     else
     #  jdbc = JDBCAR.new
     #  connection = jdbc.connect(driver,username,password,urltemplate)
@@ -87,8 +93,7 @@ class Persistor
     puts "DONE!"
     metaconnect.tables.each do |table|
       newtables[table] = [] 
-      
-      metaconnect.columns(table.to_s).each do |col|
+       metaconnect.columns(table.to_s).each do |col|
           newtables[table] << col.name
           print col.name + ", "
       end
@@ -100,7 +105,8 @@ class Persistor
 #    connection = ActiveRecord::Base.establish_connection :development
     print connection
    
-    mdm_model = MdmModel.new
+    mdm_model = MdmModel.find_by_name(modelname) 
+    mdm_model = MdmModel.new if mdm_model.nil? 
     puts "newmodel"
     mdm_model.name = modelname
     newtables.keys.each do |table|
