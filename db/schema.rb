@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140725191830) do
+ActiveRecord::Schema.define(version: 20140803230731) do
 
   create_table "database_variants", force: true do |t|
     t.string "name"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20140725191830) do
   create_table "mdm_models", force: true do |t|
     t.string  "name"
     t.integer "mdm_data_container_id"
+    t.string  "connect_src"
   end
 
   create_table "mdm_objects", force: true do |t|

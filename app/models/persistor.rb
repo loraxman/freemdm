@@ -81,7 +81,7 @@ class Persistor
             
               :url => urltemplate,
                 :pool => 2
-              }, 'jdbc_connection')
+              }, 'jdbctest_connection')
             puts "===================="
               
       connection = ActiveRecord::ConnectionAdapters::ConnectionPool.new(config)
