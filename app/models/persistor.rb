@@ -1,48 +1,21 @@
 class Persistor
 
-  class JDBCAR < ActiveRecord::Base
-    def connect(driver, username,password, urltemplate)
-   
-      connection = ActiveRecord::Base.establish_connection(
-        :adapter => 'jdbc',
-        :driver => driver,
-        :username => username,
-        :password => password,
-      
-        :url => urltemplate)
-      return connection
-
-    end
+ 
+  #ddl or metadata to db where required
+  def promote(model)
   end
-  
-	#ddl or metadata to db where required
-	def promote(model)
-	end
 	
 	#grab schemas here and build the group of MDMObjects 
 	# per table
 	#NOTE: Do we assume a new model?
-	def retrieve_database_meta(modelname, adapter,driver,host,username,password,database,urltemplate)
-=begin	  
-    :adapter => 'jdbc',
-      :driver => 'oracle.jdbc.OracleDriver',
-      :url => jdbc:oracle:thin:#{userid}/#{password}@#{host_name}:1521:#{db_name}"
-    )
-    
-    "jdbc:mysql://{host}/{database}?" +
-                                       "user={username}&password={password}"
-     jdbc:mysql://localhost/HerongDB?user=Herong&password=TopSecret
-    jdbc:mysql://localhost/freemdm?user=root&password=password
-    urlfull = urltemplate
-=end   
-	  puts 'called'
+  def retrieve_database_meta(modelname, adapter,driver,host,username,password,database,urltemplate)
+  
     urltemplate.gsub!("{host}",host)
     urltemplate.gsub!("{password}",password)
     urltemplate.gsub!("{username}",username)
     urltemplate.gsub!("{database}",database)
     mdmtype=MdmDataType.first
-
-    puts urltemplate
+  
     curr_connect = ActiveRecord::Base.connection
     if adapter=="mysql"
       arconfig = {
@@ -51,7 +24,7 @@ class Persistor
       :username => username,
       :password => password,
       :database => database }
-
+  
       config = ActiveRecord::ConnectionAdapters::ConnectionSpecification.new( {
               :adapter => adapter,
               :driver => driver,
@@ -61,9 +34,9 @@ class Persistor
               :url => urltemplate,
                 :pool => 2
               }, 'mysql_connection')
-
+  
       connection = ActiveRecord::ConnectionAdapters::ConnectionPool.new(config)
-
+  
     else
     #  jdbc = JDBCAR.new
     #  connection = jdbc.connect(driver,username,password,urltemplate)
@@ -82,16 +55,13 @@ class Persistor
               :url => urltemplate,
                 :pool => 2
               }, 'jdbc_connection')
-            puts "===================="
               
       connection = ActiveRecord::ConnectionAdapters::ConnectionPool.new(config)
     end
     
-	  newtables={}
-	    puts "past here"
+    newtables={}
     metaconnect = connection.checkout
-    puts "DONE!"
-    metaconnect.tables.each do |table|
+     metaconnect.tables.each do |table|
       newtables[table] = [] 
        metaconnect.columns(table.to_s).each do |col|
           newtables[table] << col.name
@@ -99,16 +69,12 @@ class Persistor
       end
     end
     
-    puts "*" * 80
     connection.checkin metaconnect
   
-#    connection = ActiveRecord::Base.establish_connection :development
-    print connection
    
     mdm_model = MdmModel.find_by_name(modelname) 
     mdm_model = MdmModel.new if mdm_model.nil? 
     mdm_model.connect_src = serialize_config(adapter,driver,host,username,password,database,urltemplate)
-    puts "newmodel"
     mdm_model.name = modelname
     newtables.keys.each do |table|
       mdmexist = MdmObject.find_by_name(table)
@@ -123,12 +89,12 @@ class Persistor
         mdmobject.mdm_columns << mdmcolumn
       end
       mdm_model.mdm_objects << mdmobject
-
+  
     end
-
+  
     mdm_model.save
     generate_active_record(mdm_model,arconfig)
-	end
+  end
 	
 	
 	def serialize_config(adapter,driver,host,username,password,database,urltemplate)
@@ -170,7 +136,6 @@ class Persistor
      
    
        #NOTE will need some adjustments to fit legacy tables to AR
-      puts mdm_object.name.capitalize
       Object.const_set mdm_object.name.capitalize, klass
      
       klass.establish_connection(config)
