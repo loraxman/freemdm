@@ -17,6 +17,8 @@
 	
 	$scope.update = function(<%= @mdm_object.name%>) {
 		alert(<%= @mdm_object.name%>.name);
+		var rest_url='/api/mdm_objects?name="trips"&action="add"';
+		// post here to the end point
 	}
 	
 
