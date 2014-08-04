@@ -108,8 +108,7 @@ class Persistor
 	
 	
   
-	def serialize(row)
-	end
+	
 	
   def generate_active_record(mdm_model, config)
     #do the code to create new classes based on model metadata
