@@ -97,14 +97,14 @@ class Persistor
   end
 	
 	
-	def serialize_config(adapter,driver,host,username,password,database,urltemplate)
-	  config_hash = {:adapter=>adapter,:driver=>driver,:host=>host,:username=>username,:password=>password,:database=>database,
-	  :urltemplate=>urltemplate}
-	  config_hash.to_json
-	end
+  def serialize_config(adapter,driver,host,username,password,database,urltemplate)
+    config_hash = {:adapter=>adapter,:driver=>driver,:host=>host,:username=>username,:password=>password,:database=>database,
+    :urltemplate=>urltemplate}
+    config_hash.to_json
+  end
 	#serialize an mdm_object 
 	#could be that the class is generated at runtime like AR and this is an 
-	#AR instnce or it is a hash/json
+	#AR instnce or it is a hash/json.
 	
 	
   
