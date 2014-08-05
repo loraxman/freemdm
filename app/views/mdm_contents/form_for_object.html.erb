@@ -13,6 +13,8 @@
         </div>
     <% end %>
     <button ng-click="update(<%= @mdm_object.name%>)">SAVE</button>
+    <input type="hidden" ng-model="<%= @mdm_object.name %>".ar_name="<%= @mdm_object.name%>" value="2013-05-29 15:25:00 UTC" >
+    
     </form>
   </div>
 </div>
@@ -20,7 +22,7 @@
   <script>
    function <%= @mdm_object.name%>Controller($scope,$http) {
      <%= "$scope.#{@mdm_object.name} = " %> {};
-    
+     <%= "$scope.#{@mdm_object.name}.ar_name = '#{@mdm_object.name}';".html_safe %>
     <% @mdm_object.mdm_columns.each do |mdmcol| %>
         <% if @item %>
            <% icol = eval("@item.#{mdmcol.name}") %>

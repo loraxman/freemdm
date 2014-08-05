@@ -11,6 +11,8 @@ class Api::MdmModelsController < ApplicationController
   end
   
   def save
+    #we need a AR name
+    
     render :json => params[:data]
   end
 end
