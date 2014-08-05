@@ -3,8 +3,10 @@
    <div  ng-controller="<%= @mdm_object.name %>Controller">
     <form novalidate class="simple-form">
     <% @mdm_object.mdm_columns.each do |mdmcol| %>
-    	<%= mdmcol.name %>:<input type="text" ng-model="<%= @mdm_object.name %>.<%= mdmcol.name %>" ><br/>
+        <% icol = "@item.#{mdmcol.name}" %>
+    	<%= mdmcol.name %>:<input type="text" ng-model="<%= @mdm_object.name %>.<%= mdmcol.name %>" value="<%= eval(icol) if @item %>" ><br/>
     <% end %>
+    <input type="text" value="hello">
     <button ng-click="update(<%= @mdm_object.name%>)">SAVE</button>
     </form>
   </div>
@@ -14,6 +16,12 @@
   
   function <%= @mdm_object.name%>Controller($scope,$http) {
     $scope.title = 'Hola amigos!';
+    <% @mdm_object.mdm_columns.each do |mdmcol| %>
+        <% if @item %>
+           <% icol = "@item.#{mdmcol.name}" %>
+           <%= "$scope.#{mdmcol.name} = eval(icol)" %>
+        <% end %>
+    <% end %>
 	
 	$scope.update = function(<%= @mdm_object.name%>) {
 		alert(<%= @mdm_object.name%>.name);

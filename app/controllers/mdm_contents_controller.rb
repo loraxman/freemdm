@@ -17,7 +17,8 @@ class MdmContentsController < ApplicationController
     puts params[:keys]
     if params[:keys]
       puts "*" *80
-      puts eval(@mdm_object.name.capitalize)
+      klass = eval(@mdm_object.name.capitalize)
+      @item = klass.find(params[:keys][0])
     end
     if @mdm_object
       render :form_for_object
