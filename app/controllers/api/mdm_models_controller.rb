@@ -9,4 +9,8 @@ class Api::MdmModelsController < ApplicationController
     @mdm_models = MdmModel.all
     render :json => @mdm_models.to_json(:include => {:mdm_objects => {:include => :mdm_columns}})
   end
+  
+  def save
+    render :json => params[:data]
+  end
 end

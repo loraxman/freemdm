@@ -18,20 +18,44 @@
 </div>
   
   <script>
-  
-  function <%= @mdm_object.name%>Controller($scope,$http) {
-    $scope.title = 'Hola amigos!';
+   function <%= @mdm_object.name%>Controller($scope,$http) {
+     <%= "$scope.#{@mdm_object.name} = " %> {};
+    
     <% @mdm_object.mdm_columns.each do |mdmcol| %>
         <% if @item %>
-           <% icol = "@item.#{mdmcol.name}" %>
-           <%= "$scope.#{mdmcol.name} = eval(icol)" %>
+           <% icol = eval("@item.#{mdmcol.name}") %>
+           <% icol = "@item.#{mdmcol.name.strip}" %>
+           
+           <% ival = eval(icol) %> 
+           <%= ("$scope.#{@mdm_object.name}.#{mdmcol.name} = '" + ival.to_s + "'").html_safe %>;
+           
         <% end %>
     <% end %>
 	
 	$scope.update = function(<%= @mdm_object.name%>) {
-		alert(<%= @mdm_object.name%>.name);
-		var rest_url='/api/mdm_objects?name="trips"&action="add"';
+	 //   $scope.master = angular.copy(<%= @mdm_object.name%>);
+        alert("post");	
+		var rest_url='/api/mdm_models?name="<%= @mdm_object.name%>"&action="add"';
 		// post here to the end point
+		$http({
+        method  : 'POST',
+        url     : rest_url,
+        data    : $.param($scope.<%= @mdm_object.name%>),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+        })
+        .success(function(data) {
+            console.log(data);
+
+            if (!data.success) {
+                // if not successful, bind errors to error variables
+                $scope.errorName = data.errors.name;
+                $scope.errorSuperhero = data.errors.superheroAlias;
+            } else {
+                // if successful, bind success message to message
+                $scope.message = data.message;
+            }
+        });
+		
 	}
 	
 
