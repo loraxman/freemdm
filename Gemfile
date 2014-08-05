@@ -58,3 +58,4 @@ gem 'jdbc-mysql'
 #  :branch => 'ar_4.1.x'
 #}
 gem 'composite_primary_keys'
+gem 'warbler'
