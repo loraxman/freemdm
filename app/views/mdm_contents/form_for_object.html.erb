@@ -1,12 +1,17 @@
 <div id="mdm_maint">
 	<h1><%= @mdm_object.name %></h1>
    <div  ng-controller="<%= @mdm_object.name %>Controller">
-    <form novalidate class="simple-form">
+    <form novalidate class="simple-form container">
     <% @mdm_object.mdm_columns.each do |mdmcol| %>
-        <% icol = "@item.#{mdmcol.name}" %>
-    	<%= mdmcol.name %>:<input type="text" ng-model="<%= @mdm_object.name %>.<%= mdmcol.name %>" value="<%= eval(icol) if @item %>" ><br/>
+        <% icol = "@item.#{mdmcol.name.strip}" %>
+        <div class="row">
+    	   <div class="col-md-2" ><%= mdmcol.name %>
+    	   </div>
+    	   <div class="col-md-4" >
+    	       <input type="text" ng-model="<%= @mdm_object.name %>.<%= mdmcol.name %>" value="<%= eval(icol) if @item %>" >
+    	   </div>
+        </div>
     <% end %>
-    <input type="text" value="hello">
     <button ng-click="update(<%= @mdm_object.name%>)">SAVE</button>
     </form>
   </div>
