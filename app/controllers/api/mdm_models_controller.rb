@@ -15,8 +15,13 @@ class Api::MdmModelsController < ApplicationController
     klass = eval(params[:ar_name].capitalize)
 
     puts klass
-    pkcols = MdmModel.find(params[:ar_name]).columns.select{|x| x.is_primary_key}
-    puts pkcols
+    pkcols = MdmObject.find_by_name(params[:ar_name]).mdm_columns.select{|x| x.is_primary_key}
+    puts "++++++++++++++"
+    pkcols = pkcols.collect { |u| u.name }
+      puts pkcols
+    pkeys = params.select{|k,v| pkcols.include?(k)}
+    @item = klass.find(pkeys)
+    puts @item.inspect
     #@user.update_attributes(params[:data])
     render :json => params[:data]
   end
