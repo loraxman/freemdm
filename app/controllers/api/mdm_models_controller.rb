@@ -13,9 +13,13 @@ class Api::MdmModelsController < ApplicationController
   def save
     #we need a AR name
     klass = eval(params[:ar_name].capitalize)
-
-    puts klass
     pkcols = MdmObject.find_by_name(params[:ar_name]).mdm_columns.select{|x| x.is_primary_key}
+  #  allcols = MdmObject.find_by_name(params[:ar_name]).mdm_columns.collect { |u| u.name.to_sym }
+  #    puts allcols
+  #  klass.attr_accessible allcols
+    newparams = {}
+    newparams[params[:ar_name].to_sym] = params
+    params = newparams
     puts "++++++++++++++"
     pkcols = pkcols.collect { |u| u.name }
       puts pkcols
@@ -29,8 +33,11 @@ class Api::MdmModelsController < ApplicationController
     end
     params.delete("created_at")
     params.delete("updated_at")
-    puts params
-    @item.update_attributes!(params)
+    puts "*" * 80
+    puts params[params[:ar_name].to_sym]
+    
+    params.require(params[:ar_name].to_sym).permit(params[params[:ar_name].to_sym].keys())
+    @item.update_attributes!(params[params[:ar_name].to_sym])
       puts @item.inspect
     render :json => params[:data]
   end

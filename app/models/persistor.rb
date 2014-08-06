@@ -149,7 +149,6 @@ class Persistor
       Object.const_set mdm_object.name.capitalize, klass
       puts config.symbolize_keys
       klass.establish_connection(config.symbolize_keys)
- #     klass.attr_accessible *(klass.columns);
     #  eval("class #{klass.name}; attr_accessible *columns;end")
     #
 
