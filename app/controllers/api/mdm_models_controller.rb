@@ -20,9 +20,18 @@ class Api::MdmModelsController < ApplicationController
     pkcols = pkcols.collect { |u| u.name }
       puts pkcols
     pkeys = params.select{|k,v| pkcols.include?(k)}
-    @item = klass.find(pkeys)
+      puts pkeys.values
+    @item = klass.find(pkeys.values)
     puts @item.inspect
-    #@user.update_attributes(params[:data])
+    #remove pks from params now
+    pkeys.keys.each do |k|
+      params.delete(k)
+    end
+    params.delete("created_at")
+    params.delete("updated_at")
+    puts params
+    @item.update_attributes!(params)
+      puts @item.inspect
     render :json => params[:data]
   end
 end

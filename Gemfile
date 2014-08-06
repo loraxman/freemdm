@@ -59,3 +59,4 @@ gem 'jdbc-mysql'
 #}
 gem 'composite_primary_keys'
 gem 'warbler'
+gem 'protected_attributes'

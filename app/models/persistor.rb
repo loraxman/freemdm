@@ -89,6 +89,11 @@ class Persistor
         mdmcolumn.mdm_data_type = mdmtype
         mdmcolumn.is_primary_key=true if !primary_k[table].nil? && primary_k[table].include?(mdmcolumn.name)
         mdmcolumn.save
+        if mdmcolumn.is_primary_key
+            pk = MdmPrimaryKey.new
+            pk.mdm_column = mdmcolumn
+            mdmobject.mdm_primary_keys << pk
+        end
         mdmobject.mdm_columns << mdmcolumn
       end
       mdm_model.mdm_objects << mdmobject
@@ -122,12 +127,15 @@ class Persistor
     mdm_model.mdm_objects.each do |mdm_object|
        klass = Class.new ActiveRecord::Base do
          #establish_connection(config)
-         
          #AR to set the physical tablename
          self.table_name = mdm_object.name
-         
+        
          #below does composite keys!
-        #self.primary_keys = :user_id, :group_id
+         
+         if mdm_object.mdm_primary_keys.size > 0
+            pkeys = mdm_object.mdm_primary_keys.collect{|x| x.mdm_column.name.to_sym }
+            self.primary_keys = pkeys
+         end
          #note this is FK implementation
          #  has_many :statuses, :class_name => 'MembershipStatus', :foreign_key => [:user_id, :group_id]
 
@@ -141,6 +149,10 @@ class Persistor
       Object.const_set mdm_object.name.capitalize, klass
       puts config.symbolize_keys
       klass.establish_connection(config.symbolize_keys)
+ #     klass.attr_accessible *(klass.columns);
+    #  eval("class #{klass.name}; attr_accessible *columns;end")
+    #
+
     end
   
   end
