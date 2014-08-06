@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140803230731) do
+ActiveRecord::Schema.define(version: 20140806183251) do
 
   create_table "database_variants", force: true do |t|
     t.string "name"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140803230731) do
     t.integer "mdm_object_id"
     t.string  "precision"
     t.string  "scale"
+    t.boolean "is_primary_key"
   end
 
   create_table "mdm_data_containers", force: true do |t|

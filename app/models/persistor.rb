@@ -59,10 +59,12 @@ class Persistor
       connection = ActiveRecord::ConnectionAdapters::ConnectionPool.new(config)
     end
     
+    primary_k = {}
     newtables={}
     metaconnect = connection.checkout
      metaconnect.tables.each do |table|
       newtables[table] = [] 
+      primary_k[table] = metaconnect.primary_key(table)
        metaconnect.columns(table.to_s).each do |col|
           newtables[table] << col.name
           print col.name + ", "
@@ -85,6 +87,7 @@ class Persistor
         mdmcolumn = MdmColumn.new
         mdmcolumn.name = col
         mdmcolumn.mdm_data_type = mdmtype
+        mdmcolumn.is_primary_key=true if !primary_k[table].nil? && primary_k[table].include?(mdmcolumn.name)
         mdmcolumn.save
         mdmobject.mdm_columns << mdmcolumn
       end
@@ -99,7 +102,7 @@ class Persistor
 	
   def serialize_config(adapter,driver,host,username,password,database,urltemplate)
     config_hash = {:adapter=>adapter,:driver=>driver,:host=>host,:username=>username,:password=>password,:database=>database,
-    :urltemplate=>urltemplate}
+    :url=>urltemplate}
     config_hash.to_json
   end
 	#serialize an mdm_object 
@@ -136,8 +139,8 @@ class Persistor
    
        #NOTE will need some adjustments to fit legacy tables to AR
       Object.const_set mdm_object.name.capitalize, klass
-     
-      klass.establish_connection(config)
+      puts config.symbolize_keys
+      klass.establish_connection(config.symbolize_keys)
     end
   
   end

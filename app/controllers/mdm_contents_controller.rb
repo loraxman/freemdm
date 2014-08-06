@@ -18,6 +18,7 @@ class MdmContentsController < ApplicationController
     if params[:keys]
       puts "*" *80
       klass = eval(@mdm_object.name.capitalize)
+      klass.connection
       @item = klass.find(params[:keys][0])
         puts @item.inspect
     end

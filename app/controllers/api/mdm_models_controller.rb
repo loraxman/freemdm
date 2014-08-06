@@ -12,7 +12,12 @@ class Api::MdmModelsController < ApplicationController
   
   def save
     #we need a AR name
-    
+    klass = eval(params[:ar_name].capitalize)
+
+    puts klass
+    pkcols = MdmModel.find(params[:ar_name]).columns.select{|x| x.is_primary_key}
+    puts pkcols
+    #@user.update_attributes(params[:data])
     render :json => params[:data]
   end
 end
