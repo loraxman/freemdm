@@ -1,11 +1,12 @@
 <div id="mdm_index">
    <h1><%= @mdm_object.name %></h1>
     <div ng-controller="IndexObjectCtrl">
-      <ul>
-        <li ng-repeat="item in data ">
-                {{item}}
-         </li>
-       </ul>
+      <table class="table table-striped" >
+       <tr>{{item}}</tr>
+        <tr ng-repeat="item in data">
+            <td ng-repeat="col in item">{{col}}</td>
+        </tr>
+       </table>
     </div>
 </div>
 
@@ -23,7 +24,7 @@ function IndexObjectCtrl($scope,$http,$location) {
     else {
         apiurl = '/api/mdm_objects?name=<%= params[:name] %>' ;
     }
-    alert(apiurl);
+//    alert(apiurl);
     $http({method: 'GET', url: apiurl}).
     success(function(data, status, headers, config) {
       // this callback will be called asynchronously
