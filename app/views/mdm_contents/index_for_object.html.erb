@@ -1,21 +1,57 @@
-<div id="mdm_index">
+  
+<div id="mdm_index"  >
    <h1><%= @mdm_object.name %></h1>
     <div ng-controller="IndexObjectCtrl">
-      <table class="table table-striped" >
-       <tr>{{item}}</tr>
-        <tr ng-repeat="item in data">
+      <table class="table table-striped object_list" >
+        <tr  ng-repeat="item in data " >
             <td ng-repeat="col in item">{{col}}</td>
         </tr>
        </table>
     </div>
 </div>
 
+<dir-pagination-controls ></dir-pagination-controls>
+
+<div ng-app="freemdm" ng-controller="IndexObjectCtrl">
+    
+    <pagination num-pages="noOfPages" current-page="currentPage" on-select-page="pageChanged(page)"></pagination>    
+    
+    
+<div ng-controller="IndexObjectCtrl">
+    <button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
+    <hr>
+    <div collapse="isCollapsed">
+        {{isCollapsed}}
+        <div class="well well-lg">Some content</div> 
+    </div>
+</div>    
+
+</div>
 
 
+  
 <script>
 
 
+
+
+
 function IndexObjectCtrl($scope,$http,$location) {
+  $scope.isCollapsed = true;
+ $scope.noOfPages = 7;
+  $scope.currentPage = 4;
+  $scope.maxSize = 5;
+  
+   $scope.$watch('currentPage', function(newPage){
+    $scope.watchPage = newPage;
+    //or any other code here
+  });
+  
+  $scope.pageChanged = function(page) {
+    $scope.callbackPage = page;
+    $scope.watchPage = newPage;
+  };
+ 
     var loc = $location.absUrl();
     var apiurl=loc;
     if (apiurl.length > 90) {
@@ -29,7 +65,6 @@ function IndexObjectCtrl($scope,$http,$location) {
     success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
-      console.log(data);
       $scope.data = data;
       
    
