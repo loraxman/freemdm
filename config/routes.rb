@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   resources :mdm_contents do
     collection do 
       get :form_for_object
+      get :index_for_object
     end
   end
    

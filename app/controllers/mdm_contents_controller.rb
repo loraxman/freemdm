@@ -8,6 +8,13 @@ class MdmContentsController < ApplicationController
     end
   end
 
+  def index_for_object
+    @mdm_object= MdmObject.find_by_name(params[:name])
+    klass = eval(params[:name].capitalize)
+    @items = klass.find(:all)  #, :country => 'canada'))
+    render :index_for_object
+  end
+  
   def form_for_object
     #should get in modelname
     #action (add,del,update)

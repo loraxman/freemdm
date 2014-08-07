@@ -1,3 +1,38 @@
 <div id="mdm_index">
    <h1><%= @mdm_object.name %></h1>
+    <div ng-controller="IndexObjectCtrl">
+      <ul>
+        <li ng-repeat="item in data ">
+                {{item}}
+         </li>
+       </ul>
+    </div>
 </div>
+
+
+
+<script>
+
+
+function IndexObjectCtrl($scope,$http,$location) {
+    var loc = $location.absUrl();
+    var apiurl=loc;
+    if (apiurl.length > 90) {
+        apiurl=apiurl[0] +'/api/mdm_objects' ;
+    }
+    else {
+        apiurl = '/api/mdm_objects?name=<%= params[:name] %>' ;
+    }
+    alert(apiurl);
+    $http({method: 'GET', url: apiurl}).
+    success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+      console.log(data);
+      $scope.data = data;
+      
+   
+    });
+
+};
+</script>
