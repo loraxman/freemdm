@@ -135,6 +135,8 @@ class Persistor
          if mdm_object.mdm_primary_keys.size > 0
             pkeys = mdm_object.mdm_primary_keys.collect{|x| x.mdm_column.name.to_sym }
             self.primary_keys = pkeys
+            puts "-" * 80
+            puts mdm_object.name, pkeys.size
          end
          #note this is FK implementation
          #  has_many :statuses, :class_name => 'MembershipStatus', :foreign_key => [:user_id, :group_id]
