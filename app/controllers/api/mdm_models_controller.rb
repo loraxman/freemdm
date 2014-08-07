@@ -13,37 +13,17 @@ class Api::MdmModelsController < ApplicationController
   def save
     #we need a AR name
     klass = eval(params[:ar_name].capitalize)
-    pkcols = MdmObject.find_by_name(params[:ar_name]).mdm_columns.select{|x| x.is_primary_key}
-  #  allcols = MdmObject.find_by_name(params[:ar_name]).mdm_columns.collect { |u| u.name.to_sym }
-  #    puts allcols
-  #  klass.attr_accessible allcols
-    newparams = {}
-    newparams[params[:ar_name].to_sym] = params
-    oldparams = params
-    params = newparams
-    puts "++++++++++++++"
-    pkcols = pkcols.collect { |u| u.name }
-      puts pkcols
-    pkeys = oldparams.select{|k,v| pkcols.include?(k)}
-      puts pkeys.values
-      puts "*" *30
-    @item = klass.find(pkeys.values)
+    pkcols = MdmObject.find_by_name(params[:ar_name]).mdm_columns.select{|x| x.is_primary_key}.collect { |u| u.name }
+    pkeys = params.select{|k,v| pkcols.include?(k)}
+    begin
+      @item = klass.find(pkeys.values)
+    rescue
+      @item = klass.new
+    end
     klass.columns.each do | col |
-      puts "@item.#{col.name}=oldparams[col.name]"
-      eval("@item.#{col.name}=oldparams[col.name]")
+      eval("@item.#{col.name}=params[col.name]")
     end
-    #remove pks from params now
-    pkeys.keys.each do |k|
- #     params.delete(k)
-    end
-    params.delete("created_at")
-    params.delete("updated_at")
-    puts "*" * 80
-    puts params
     @item.save!
-#    params.require(oldparams[:ar_name]).permit(params[oldparams[:ar_name].to_sym].keys())
-#    @item.update_attributes!(params[params[:ar_name].to_sym])
-      puts @item.inspect
     render :json => params[:data]
   end
 end

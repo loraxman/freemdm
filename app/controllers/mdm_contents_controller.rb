@@ -19,8 +19,11 @@ class MdmContentsController < ApplicationController
       puts "*" *80
       klass = eval(@mdm_object.name.capitalize)
       klass.connection
-      @item = klass.find(params[:keys][0])
-        puts @item.inspect
+      begin
+        @item = klass.find(params[:keys][0])
+      rescue
+        @item = klass.new
+      end
     end
     if @mdm_object
       render :form_for_object
