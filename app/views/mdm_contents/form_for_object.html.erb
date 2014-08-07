@@ -1,5 +1,5 @@
 <div id="mdm_maint">
-	<h1><%= @mdm_object.name %></h1>
+   <h1><%= @mdm_object.name %></h1>
    <div  ng-controller="<%= @mdm_object.name %>Controller">
     <form novalidate class="simple-form container">
     <% @mdm_object.mdm_columns.each do |mdmcol| %>
@@ -35,11 +35,12 @@
         <% end %>
     <% end %>
 	
-	$scope.update = function(<%= @mdm_object.name%>) {
-		var rest_url='/api/mdm_models/save?name="<%= @mdm_object.name%>"&action="add"';
-		// post here to the end point
-		$scope.loading = true;
-		$http({
+	// called for save
+    $scope.update = function(<%= @mdm_object.name%>) {
+    	var rest_url='/api/mdm_models/save?name="<%= @mdm_object.name%>"&action="add"';
+    	// post here to the end point
+    	$scope.loading = true;
+    	$http({
         method  : 'POST',
         url     : rest_url,
         data    : $.param($scope.<%= @mdm_object.name%>),  // pass in data as strings
@@ -50,8 +51,8 @@
             alert("saved");
             $scope.loading = false;
         });
-		
-	}
+    	
+    }
 	
 
 
