@@ -13,10 +13,11 @@
         </div>
     <% end %>
     <button ng-click="update(<%= @mdm_object.name%>)">SAVE</button>
-    <input type="hidden" ng-model="<%= @mdm_object.name %>.ar_name="<%= @mdm_object.name%>" value="2013-05-29 15:25:00 UTC" >
+    <input type="hidden" ng-model="<%= @mdm_object.name %>.ar_name"="<%= @mdm_object.name%>" value="2013-05-29 15:25:00 UTC" >
     
     </form>
   </div>
+  <div class="spinner" ng-show="loading">Loading!</div>
 </div>
   
   <script>
@@ -37,6 +38,7 @@
 	$scope.update = function(<%= @mdm_object.name%>) {
 		var rest_url='/api/mdm_models/save?name="<%= @mdm_object.name%>"&action="add"';
 		// post here to the end point
+		$scope.loading = true;
 		$http({
         method  : 'POST',
         url     : rest_url,
@@ -45,6 +47,8 @@
         })
         .success(function(data) {
             console.log("worked");
+            alert("saved");
+            $scope.loading = false;
         });
 		
 	}
