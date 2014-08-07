@@ -37,7 +37,7 @@
 	
 	// called for save
     $scope.update = function(<%= @mdm_object.name%>) {
-    	var rest_url='/api/mdm_models/save?name="<%= @mdm_object.name%>"&action="add"';
+    	var rest_url='/api/mdm_objects/save?name="<%= @mdm_object.name%>"&action="add"';
     	// post here to the end point
     	$scope.loading = true;
     	$http({

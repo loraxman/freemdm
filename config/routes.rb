@@ -59,10 +59,13 @@ Rails.application.routes.draw do
   #sample api names space
   namespace :api, defaults: {format: :json} do
     resources :mdm_models do
-      collection do
-        post :save
-      end
     end
+    resources :mdm_objects do
+    collection do
+      post :save
+    end
+  end
+    
   end
 
   resources :mdm_contents do
