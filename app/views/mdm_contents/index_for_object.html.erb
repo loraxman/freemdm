@@ -7,7 +7,7 @@
             <td ng-repeat="col in item">{{col}}</td>
         </tr>
        </table>
-           <pagination num-pages="noOfPages" current-page="currentPage" on-select-page="pageChanged(page)"></pagination>    
+           <pagination  total-items="totitems" boundary-links="true" current-page="currentPage" on-select-page="pageChanged(page)"></pagination>    
        
     </div>
 </div>
@@ -54,6 +54,8 @@ function IndexObjectCtrl($scope,$http,$location) {
       // this callback will be called asynchronously
       // when the response is available
       $scope.data = data;
+      $scope.totitems = data.length;
+      $scope.noOfPages = 1;
       
    
     });
@@ -74,6 +76,8 @@ function IndexObjectCtrl($scope,$http,$location) {
           // this callback will be called asynchronously
           // when the response is available
           $scope.data = data;
+          $scope.totitems += data.length;
+          $scope.noOfPages + 1;
         
           
      });
