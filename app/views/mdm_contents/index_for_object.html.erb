@@ -3,7 +3,7 @@
    <h1><%= @mdm_object.name %></h1>
     <div ng-controller="IndexObjectCtrl" ng-bind-html-unsafe="data" ng-click="form_detail('http://www-google.com')" >
       <table class="table table-striped object_list" >
-        <tr  ng-repeat="item in data " ng-model="data" ng-click="form_detail('http://www-google.com')" >
+        <tr  ng-repeat="item in data " ng-model="data" ng-click="form_detail('<%= @mdm_object.name %>',<%= @mdm_object.mdm_primary_keys.collect{|x| x.mdm_column.name }%>, item)" >
             <td ng-click="form_detailx('http://www-google.com')" ng-repeat="col in item">{{col}}</td>
         </tr>
        </table>
@@ -34,9 +34,23 @@ function IndexObjectCtrl($scope,$http,$location, $window) {
     
      });
   
-    $scope.form_detail = function(url) {
+    $scope.form_detail = function(mdmobject, mdmpkeys, item) {
         //alert(url);
-        $window.location.href = url;
+        //  need to build url to call the form object
+        // we have the object passed to us
+        // we also need the name and keys
+        // http://localhost:3000//mdm_contents/form_for_object?name=customer&keys[]=1
+        var url = '/mdm_contents/form_for_object?name=' + mdmobject + "&keys[]=";
+        console.log(mdmobject);
+        console.log(item);
+        console.log(mdmpkeys);
+        for (var i=0;i<mdmpkeys.length;i++) {
+            url += item[mdmpkeys[i]];
+            if (i < mdmpkeys.length -1) 
+                url += ",";
+        }
+        //alert (url);        
+       $window.location.href = url;
      };
   
   
