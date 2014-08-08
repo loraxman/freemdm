@@ -28,6 +28,7 @@ function IndexObjectCtrl($scope,$http,$location) {
     $scope.noOfPages = 7;
     $scope.currentPage = 1;
     $scope.maxSize = 5;
+    $scope.page = 1;
   
     $scope.$watch('currentPage', function(newPage){
         $scope.watchPage = newPage;
@@ -47,7 +48,7 @@ function IndexObjectCtrl($scope,$http,$location) {
         apiurl=apiurl[0] +'/api/mdm_objects' ;
     }
     else {
-        apiurl = '/api/mdm_objects?name=<%= params[:name] %>' ;
+        apiurl = '/api/mdm_objects?name=<%= params[:name] %>&page=' + $scope.page ;
     }
     $http({method: 'GET', url: apiurl}).
     success(function(data, status, headers, config) {
