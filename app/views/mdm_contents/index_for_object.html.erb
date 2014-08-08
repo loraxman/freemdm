@@ -1,32 +1,19 @@
   
 <div id="mdm_index"  >
    <h1><%= @mdm_object.name %></h1>
-    <div ng-controller="IndexObjectCtrl">
+    <div ng-controller="IndexObjectCtrl" ng-bind-html-unsafe="data">
       <table class="table table-striped object_list" >
-        <tr  ng-repeat="item in data " >
+        <tr  ng-repeat="item in data " ng-model="data" >
             <td ng-repeat="col in item">{{col}}</td>
         </tr>
        </table>
+           <pagination num-pages="noOfPages" current-page="currentPage" on-select-page="pageChanged(page)"></pagination>    
+       
     </div>
 </div>
 
-<dir-pagination-controls ></dir-pagination-controls>
 
-<div ng-app="freemdm" ng-controller="IndexObjectCtrl">
-    
-    <pagination num-pages="noOfPages" current-page="currentPage" on-select-page="pageChanged(page)"></pagination>    
-    
-    
-<div ng-controller="IndexObjectCtrl">
-    <button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
-    <hr>
-    <div collapse="isCollapsed">
-        {{isCollapsed}}
-        <div class="well well-lg">Some content</div> 
-    </div>
-</div>    
 
-</div>
 
 
   
@@ -37,21 +24,23 @@
 
 
 function IndexObjectCtrl($scope,$http,$location) {
-  $scope.isCollapsed = true;
- $scope.noOfPages = 7;
-  $scope.currentPage = 4;
-  $scope.maxSize = 5;
+    $scope.isCollapsed = true;
+    $scope.noOfPages = 7;
+    $scope.currentPage = 1;
+    $scope.maxSize = 5;
   
-   $scope.$watch('currentPage', function(newPage){
-    $scope.watchPage = newPage;
-    //or any other code here
-  });
+    $scope.$watch('currentPage', function(newPage){
+        $scope.watchPage = newPage;
+    
+     });
   
-  $scope.pageChanged = function(page) {
-    $scope.callbackPage = page;
-    $scope.watchPage = newPage;
+   $scope.pageChanged = function(page) {
+        $scope.callbackPage = page;
+    //    $scope.watchPage = newPage;
+        $scope.getdata(page);
+    
   };
- 
+  
     var loc = $location.absUrl();
     var apiurl=loc;
     if (apiurl.length > 90) {
@@ -60,7 +49,6 @@ function IndexObjectCtrl($scope,$http,$location) {
     else {
         apiurl = '/api/mdm_objects?name=<%= params[:name] %>' ;
     }
-//    alert(apiurl);
     $http({method: 'GET', url: apiurl}).
     success(function(data, status, headers, config) {
       // this callback will be called asynchronously
@@ -69,6 +57,31 @@ function IndexObjectCtrl($scope,$http,$location) {
       
    
     });
+
+
+
+    $scope.getdata= function(page) {
+        var loc = $location.absUrl();
+        var apiurl=loc;
+        if (apiurl.length > 90) {
+            apiurl=apiurl[0] +'/api/mdm_objects' ;
+        }
+        else {
+            apiurl = '/api/mdm_objects?name=<%= params[:name] %>&page=' + page;
+        }
+        $http({method: 'GET', url: apiurl}).
+        success(function(data, status, headers, config) {
+          // this callback will be called asynchronously
+          // when the response is available
+          $scope.data = data;
+        
+          
+     });
+     
+     
+    };
+
+
 
 };
 </script>

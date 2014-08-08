@@ -20,7 +20,7 @@ class Api::MdmObjectsController < ApplicationController
   def index
      #we need a AR name
      klass = eval(params[:name].capitalize)
-     @items = klass.find(:all)  #, :country => 'canada'))
+     @items = klass.paginate(:page =>params[:page],:per_page => 15)  #, :country => 'canada'))
      render :json => @items
    end   
 end
