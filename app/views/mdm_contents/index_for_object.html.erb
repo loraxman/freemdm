@@ -1,17 +1,16 @@
   
 <div id="mdm_index"  >
    <h1><%= @mdm_object.name %></h1>
-    <div ng-controller="IndexObjectCtrl" ng-bind-html-unsafe="data">
+    <div ng-controller="IndexObjectCtrl" ng-bind-html-unsafe="data" ng-click="form_detail('http://www-google.com')" >
       <table class="table table-striped object_list" >
-        <tr  ng-repeat="item in data " ng-model="data" >
-            <td ng-repeat="col in item">{{col}}</td>
+        <tr  ng-repeat="item in data " ng-model="data" ng-click="form_detail('http://www-google.com')" >
+            <td ng-click="form_detailx('http://www-google.com')" ng-repeat="col in item">{{col}}</td>
         </tr>
        </table>
            <pagination  total-items="totitems" boundary-links="true" current-page="currentPage" on-select-page="pageChanged(page)"></pagination>    
        
     </div>
 </div>
-
 
 
 
@@ -23,7 +22,7 @@
 
 
 
-function IndexObjectCtrl($scope,$http,$location) {
+function IndexObjectCtrl($scope,$http,$location, $window) {
     $scope.isCollapsed = true;
     $scope.noOfPages = 7;
     $scope.currentPage = 1;
@@ -34,6 +33,12 @@ function IndexObjectCtrl($scope,$http,$location) {
         $scope.watchPage = newPage;
     
      });
+  
+    $scope.form_detail = function(url) {
+        //alert(url);
+        $window.location.href = url;
+     };
+  
   
    $scope.pageChanged = function(page) {
         $scope.callbackPage = page;
@@ -62,7 +67,7 @@ function IndexObjectCtrl($scope,$http,$location) {
     });
 
 
-
+    
     $scope.getdata= function(page) {
         var loc = $location.absUrl();
         var apiurl=loc;
@@ -82,6 +87,8 @@ function IndexObjectCtrl($scope,$http,$location) {
         
           
      });
+     
+     
      
      
     };
