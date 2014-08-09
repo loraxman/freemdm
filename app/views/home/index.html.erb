@@ -1,13 +1,15 @@
 
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<h1>Models</h1>
+
 <div ng-controller="IndexCtrl">
-  <h1>{{ title }}</h1>
+  <h1>Mdm Models</h1>
  
   <ul>
   <div class="span6" ng-repeat="mdmmodel in mdmmodels">{{mdmmodel.name}}
   		{{ mdmmodel.mdm_objects[0].name }}
-  		<li ng-repeat="mdmobject in mdmmodel.mdm_objects">{{ mdmobject.name}} </li>
+  		<div ng-repeat="mdmobject in mdmmodel.mdm_objects">
+  		<a href="/mdm_contents/index_for_object?name={{mdmobject.name}}" target="_self">{{ mdmobject.name}} </a>
+   		</div>
    </div>
 </ul>
 

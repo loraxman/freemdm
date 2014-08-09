@@ -1,10 +1,10 @@
 function IndexCtrl($scope,$http,$location) {
     $scope.title = 'Hola amigos!';
-       startit();
-		kaboom();
-		setInterval(redraw, 3000);
+ //      startit();
+//		kaboom();
+//		setInterval(redraw, 3000);
 	
-	alert($location.absUrl() );
+//	alert($location.absUrl() );
 	var loc = $location.absUrl();
 	var apiurl=loc.split("/home/index");
 	if (apiurl.length > 0) {
@@ -13,7 +13,7 @@ function IndexCtrl($scope,$http,$location) {
 	else {
 		apiurl = '/api/mdm_models' ;
 	}
-	alert(apiurl);
+	//alert(apiurl);
 	$http({method: 'GET', url: apiurl}).
     success(function(data, status, headers, config) {
       // this callback will be called asynchronously
