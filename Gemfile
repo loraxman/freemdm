@@ -61,3 +61,5 @@ gem 'composite_primary_keys'
 gem 'warbler'
 gem 'protected_attributes'
 gem 'will_paginate', '~> 3.0'
+
+gem 'redis'

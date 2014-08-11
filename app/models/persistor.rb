@@ -128,6 +128,7 @@ class Persistor
        klass = Class.new ActiveRecord::Base do
          #establish_connection(config)
          #AR to set the physical tablename
+         before_save :diff_row
          self.table_name = mdm_object.name
         
          #below does composite keys!
@@ -135,6 +136,7 @@ class Persistor
          if mdm_object.mdm_primary_keys.size > 0
             pkeys = mdm_object.mdm_primary_keys.collect{|x| x.mdm_column.name.to_sym }
             self.primary_keys = pkeys
+            @@pklist = pkeys
             puts "-" * 80
             puts mdm_object.name, pkeys.size
          end
@@ -143,6 +145,21 @@ class Persistor
 
          def name
            
+         end
+         
+         def diff_row
+           #here we send changes out over to the queue
+           #we need PK followed by row
+           puts self.changes
+           pkvals = {}
+           changevals = {}
+           self.class.primary_keys.each do |k|
+             pkvals[k] = self.read_attribute(k)
+           end
+           changevals['colvals'] = self.changes
+           changevals['pkeys'] = pkvals
+           redis = Redis.new
+           redis.publish("mdm:freemdm", changevals.to_json)
          end
        end
      
