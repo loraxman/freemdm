@@ -1,11 +1,12 @@
-// script.js
+    // script.js
 
-    // create the module and name it scotchApp
+    // create the module and name it freemdm
         // also include ngRoute for all our routing needs
-    var scotchApp = angular.module('freemdm', ['ngRoute']);
+    var freemdm = angular.module('freemdm', ['ngRoute']);
 
     // configure our routes
-    scotchApp.config(function($routeProvider) {
+    freemdm.config(function($routeProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
         $routeProvider
 
             // route for the home page
@@ -15,7 +16,7 @@
             })
 
             // route for the about page
-            .when('/about', {
+            .when('/mdm_metadata', {
                 templateUrl : 'assets/angular/views/about.html',
                 controller  : 'aboutController'
             })
@@ -28,15 +29,17 @@
     });
 
     // create the controller and inject Angular's $scope
-    scotchApp.controller('mainController', function($scope) {
+    freemdm.controller('mainController', function($scope) {
         // create a message to display in our view
         $scope.message = 'Everyone come and see how good I look!';
     });
 
-    scotchApp.controller('aboutController', function($scope) {
+    freemdm.controller('aboutController', function($scope) {
         $scope.message = 'Look! I am an about page.';
+        
     });
 
-    scotchApp.controller('contactController', function($scope) {
+    freemdm.controller('contactController', function($scope) {
         $scope.message = 'Contact us! JK. This is just a demo.';
     });
+    

@@ -68,6 +68,9 @@ Rails.application.routes.draw do
     
   end
 
+  resources :mdm_metadata do 
+  end
+  
   resources :mdm_contents do
     collection do 
       get :form_for_object

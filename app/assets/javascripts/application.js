@@ -14,10 +14,12 @@
 //= require jquery_ujs
 // Turbolinks removed because incomaptible with angular
 #//= require turbolinks
-//= require_tree .
+
 
 //= require angular
+//= require angular-route
+
 //= require bootstrap
 //= require raphael
 //= require intro
-
+//= require_tree .
