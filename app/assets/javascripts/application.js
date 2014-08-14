@@ -19,7 +19,9 @@
 //= require angular
 //= require angular-route
 
+
 //= require bootstrap
 //= require raphael
 //= require intro
 //= require_tree .
+//= require_tree ../angular/views

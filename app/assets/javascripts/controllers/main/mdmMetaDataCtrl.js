@@ -6,25 +6,26 @@
 
     // configure our routes
     freemdm.config(function($routeProvider, $locationProvider) {
-    $locationProvider.html5Mode(true);
+  //  $locationProvider.html5Mode(true);
+ 
         $routeProvider
 
             // route for the home page
-            .when('/', {
-                templateUrl : 'assets/angular/views/home.html',
-                controller  : 'mainController'
+            .when('/contact/:contactId', {
+                templateUrl : "<%= asset_path('assets/angular/views/about.html') %>",
+                controller  : 'contactController'
             })
 
             // route for the about page
-            .when('/mdm_metadata', {
+            .when('/about', {
                 templateUrl : 'assets/angular/views/about.html',
                 controller  : 'aboutController'
             })
 
             // route for the contact page
-            .when('/contact', {
-                templateUrl : 'assets/angular/views/contact.html',
-                controller  : 'contactController'
+            .when('/main', {
+                templateUrl :  "<%= asset_path('assets/angular/views/about.html') %>",
+                controller  : 'mainController'
             });
     });
 
@@ -36,10 +37,12 @@
 
     freemdm.controller('aboutController', function($scope) {
         $scope.message = 'Look! I am an about page.';
-        
+       
     });
 
-    freemdm.controller('contactController', function($scope) {
-        $scope.message = 'Contact us! JK. This is just a demo.';
+    freemdm.controller('contactController', function($scope, $routeParams) {
+        alert($routeParams.contactId);
+        $scope.message = 'Contact us! JK. This is just a demo.' + $routeParams.contactId;
     });
+    
     
