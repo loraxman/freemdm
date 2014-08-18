@@ -19,7 +19,7 @@
          <pagination boundary-links="true" 
     max-size="3" 
     items-per-page="15"
-    total-items="200" 
+    total-items="totitems" 
     ng-model="currentPage" 
     ng-change="pageChanged(currentPage)"></pagination>
     </div>
@@ -102,7 +102,8 @@ function IndexObjectCtrl($scope,$http,$location, $window) {
     $scope.currentPage = 1;
     $scope.maxSize = 5;
     $scope.page = 1;
-  
+    $scope.totitems=15;
+    
     $scope.$watch('currentPage', function(newPage){
         $scope.watchPage = newPage;
     
@@ -148,7 +149,7 @@ function IndexObjectCtrl($scope,$http,$location, $window) {
       // this callback will be called asynchronously
       // when the response is available
       $scope.data = data;
-      $scope.totitems = data.length;
+      $scope.totitems += data.length;
       $scope.noOfPages = 1;
       
    
@@ -172,7 +173,7 @@ function IndexObjectCtrl($scope,$http,$location, $window) {
           $scope.data = data;
           $scope.totitems += data.length;
           $scope.noOfPages + 1;
-        
+         
           
      });
      
