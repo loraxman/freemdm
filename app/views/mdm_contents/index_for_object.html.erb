@@ -25,6 +25,7 @@
     </div>
 </div>
 
+
 <div ng-controller="DatepickerDemoCtrl">
     <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 
@@ -58,6 +59,19 @@
 </div>
 
 <script>
+
+var TabsDemoCtrl = function ($scope) {
+  $scope.tabs = [
+    { title:'Dynamic Title 1', content:'Dynamic content 1' },
+    { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
+  ];
+
+  $scope.alertMe = function() {
+    setTimeout(function() {
+      alert('You\'ve selected the alert tab!');
+    });
+  };
+};
 
 var DatepickerDemoCtrl = function ($scope) {
   $scope.today = function() {

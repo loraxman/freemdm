@@ -8,15 +8,6 @@
     </div>
     
     
-    
-    <div ng-controller="CollapseDemoCtrl">
-    <button class="btn btn-default" ng-click="isCollpased = !isCollapsed">Toggle collapse</button>
-    <hr>
-    <div collapse="isCollapsed" class="collapse">
-        <div class="well well-lg">Some content</div> 
-    </div>
-    </div>
-    
     <script>
    
     function CollapseDemoCtrl($scope) {
@@ -30,7 +21,7 @@
        // script.js
     // create the module and name it freemdm
         // also include ngRoute for all our routing needs
-    var freemdm = angular.module('freemdm', ['ngRoute']);
+    var freemdm = angular.module('freemdm', ['ngRoute','ui.bootstrap']);
 
     // configure our routes
     freemdm.config(function($routeProvider, $locationProvider) {

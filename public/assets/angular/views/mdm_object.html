@@ -1,45 +1,135 @@
-   <div  ng-controller="mdmObjectsController">
-    <form novalidate class="simple-form container">
-        <div class="row">
-           <div class="col-md-2" >id
-           </div>
-           <div class="col-md-4" >
-               <input type="text" ng-model="mdm_objects.id" value="" >
-           </div>
-        </div>
-        <div class="row">
-           <div class="col-md-2" >name
-           </div>
-           <div class="col-md-4" >
-               <input type="text" ng-model="mdm_objects.name" value="" >
-           </div>
-        </div>
-        <div class="row">
-           <div class="col-md-2" >mdm_model_id
-           </div>
-           <div class="col-md-4" >
-               <input type="text" ng-model="mdm_objects.mdm_model_id" value="" >
-           </div>
-        </div>
-    <button ng-click="update(mdm_objects)">SAVE</button>
-    <input type="hidden" ng-model="mdm_objects.ar_name"="mdm_objects" value="2013-05-29 15:25:00 UTC" >
-    
-    </form>
-  </div>
-  
-<!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
-  <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
-  <li><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
-  <li><a href="#messages" role="tab" data-toggle="tab">Messages</a></li>
-  <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>
-</ul>
+  <div ng-controller="DatepickerDemoCtrl">
+    <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 
-<!-- Tab panes -->
-<div class="tab-content">
-  <div class="tab-pane active" id="home">...</div>
-  <div class="tab-pane" id="profile">...</div>
-  <div class="tab-pane" id="messages">...</div>
-  <div class="tab-pane" id="settings">...</div>
+    <h4>Inline</h4>
+    <div style="display:inline-block; min-height:290px;">
+        <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
+    </div>
+
+    <h4>Popup</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Format:</label> <select class="form-control" ng-model="format" ng-options="f for f in formats"><option></option></select>
+        </div>
+    </div>
+
+    <hr />
+    <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
+    <button type="button" class="btn btn-sm btn-default" ng-click="dt = '2009-08-24'">2009-08-24</button>
+    <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+    <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
 </div>
+  
+<div ng-controller="TabsDemoCtrl">
+  <p>Select a tab by setting active binding to true:</p>
+  <p>
+    <button class="btn btn-default btn-sm" ng-click="tabs[0].active = true">Select second tab</button>
+    <button class="btn btn-default btn-sm" ng-click="tabs[1].active = true">Select third tab</button>
+  </p>
+  <p>
+    <button class="btn btn-default btn-sm" ng-click="tabs[1].disabled = ! tabs[1].disabled">Enable / Disable third tab</button>
+  </p>
+  <hr />
+
+  <tabset>
+    <tab heading="Static title">
+           <div  ng-controller="mdmObjectsController">
+            <form novalidate class="simple-form container">
+                <div class="row">
+                   <div class="col-md-2" >id
+                   </div>
+                   <div class="col-md-4" >
+                       <input type="text" ng-model="mdm_objects.id" value="" >
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-2" >name
+                   </div>
+                   <div class="col-md-4" >
+                       <input type="text" ng-model="mdm_objects.name" value="" >
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-2" >mdm_model_id
+                   </div>
+                   <div class="col-md-4" >
+                       <input type="text" ng-model="mdm_objects.mdm_model_id" value="" >
+                   </div>
+                </div>
+            <button ng-click="update(mdm_objects)">SAVE</button>
+            <input type="hidden" ng-model="mdm_objects.ar_name"="mdm_objects" value="2013-05-29 15:25:00 UTC" >
+            
+            </form>
+          </div>
+        
+    </tab>
+    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+      {{tab.content}}
+    </tab>
+    <tab select="alertMe()">
+      <tab-heading>
+        <i class="glyphicon glyphicon-bell"></i> Alert!
+      </tab-heading>
+      I've got an HTML heading, and a select callback. Pretty cool!
+    </tab>
+  </tabset>
+
+  <hr />
+
+  <tabset vertical="true" type="pills">
+    <tab heading="Vertical 1">Vertical content 1</tab>
+    <tab heading="Vertical 2">Vertical content 2</tab>
+  </tabset>
+
+  <hr />
+
+  <tabset justified="true">
+    <tab heading="Justified">Justified content</tab>
+    <tab heading="SJ">Short Labeled Justified content</tab>
+    <tab heading="Long Justified">Long Labeled Justified content</tab>
+  </tabset>
+</div>
+
+<div ng-controller="DatepickerDemoCtrl">
+    <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+
+    <h4>Inline</h4>
+    <div style="display:inline-block; min-height:290px;">
+        <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
+    </div>
+
+    <h4>Popup</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Format:</label> <select class="form-control" ng-model="format" ng-options="f for f in formats"><option></option></select>
+        </div>
+    </div>
+
+    <hr />
+    <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
+    <button type="button" class="btn btn-sm btn-default" ng-click="dt = '2009-08-24'">2009-08-24</button>
+    <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+    <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
+</div>
+
 
