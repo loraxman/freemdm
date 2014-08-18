@@ -1,0 +1,45 @@
+   <div  ng-controller="mdmObjectsController">
+    <form novalidate class="simple-form container">
+        <div class="row">
+           <div class="col-md-2" >id
+           </div>
+           <div class="col-md-4" >
+               <input type="text" ng-model="mdm_objects.id" value="" >
+           </div>
+        </div>
+        <div class="row">
+           <div class="col-md-2" >name
+           </div>
+           <div class="col-md-4" >
+               <input type="text" ng-model="mdm_objects.name" value="" >
+           </div>
+        </div>
+        <div class="row">
+           <div class="col-md-2" >mdm_model_id
+           </div>
+           <div class="col-md-4" >
+               <input type="text" ng-model="mdm_objects.mdm_model_id" value="" >
+           </div>
+        </div>
+    <button ng-click="update(mdm_objects)">SAVE</button>
+    <input type="hidden" ng-model="mdm_objects.ar_name"="mdm_objects" value="2013-05-29 15:25:00 UTC" >
+    
+    </form>
+  </div>
+  
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
+  <li><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
+  <li><a href="#messages" role="tab" data-toggle="tab">Messages</a></li>
+  <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active" id="home">...</div>
+  <div class="tab-pane" id="profile">...</div>
+  <div class="tab-pane" id="messages">...</div>
+  <div class="tab-pane" id="settings">...</div>
+</div>
+

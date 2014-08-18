@@ -39,10 +39,20 @@
         $scope.message = 'Look! I am an about page.';
        
     });
+   freemdm.controller('mdmobjectController', function($scope, $routeParams) {
+       
+        $scope.message = 'Contact us! JK. This is just a demo.' + $routeParams.mdmobjectId;
+    });
+    
+   
 
     freemdm.controller('contactController', function($scope, $routeParams) {
         alert($routeParams.contactId);
         $scope.message = 'Contact us! JK. This is just a demo.' + $routeParams.contactId;
     });
+    
+    
+    
+    
     
     

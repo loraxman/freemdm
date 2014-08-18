@@ -1,4 +1,4 @@
-    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+     <!-- MAIN CONTENT AND INJECTED VIEWS -->
     <div id="main">
         <p> hey main view </p>
         <!-- angular templating -->
@@ -9,10 +9,25 @@
     
     
     
-    <script>
+    <div ng-controller="CollapseDemoCtrl">
+    <button class="btn btn-default" ng-click="isCollpased = !isCollapsed">Toggle collapse</button>
+    <hr>
+    <div collapse="isCollapsed" class="collapse">
+        <div class="well well-lg">Some content</div> 
+    </div>
+    </div>
     
+    <script>
+   
+    function CollapseDemoCtrl($scope) {
+       $scope.test=function() {
+        alert('click');
+        $scope.isCollpased = !$scope.isCollapsed;
+        alert($scope.isCollapsed);
+    };
+  
+        };
        // script.js
-
     // create the module and name it freemdm
         // also include ngRoute for all our routing needs
     var freemdm = angular.module('freemdm', ['ngRoute']);
@@ -24,6 +39,12 @@
         $routeProvider
 
             // route for the home page
+            
+            .when('/mdm_object/:mdmobjectId', {
+                templateUrl : "<%= asset_path('assets/angular/views/mdm_object.html') %>",
+                controller  : 'mdmObjectsController'
+            })
+            
             .when('/contact/:contactId', {
                 templateUrl : "<%= asset_path('assets/angular/views/about.html') %>",
                 controller  : 'contactController'
@@ -59,5 +80,23 @@
     });
     
     
+    freemdm.controller('mdmObjectsController', function($scope, $routeParams) {
+       
+        $scope.message = 'Contact us! JK. This is just a demo.' + $routeParams.mdmobjectId;
+    });
+    
+    
+    var TabsDemoCtrl = function ($scope) {
+          $scope.tabs = [
+            { title:'Dynamic Title 1', content:'Dynamic content 1' },
+            { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
+          ];
+        
+          $scope.alertMe = function() {
+            setTimeout(function() {
+              alert('You\'ve selected the alert tab!');
+            });
+          };
+        };
    
        </script>

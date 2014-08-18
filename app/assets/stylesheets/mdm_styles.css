@@ -8,3 +8,5 @@ margin-left: 50px;
 .object_list {
     margin-left: 50px;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
