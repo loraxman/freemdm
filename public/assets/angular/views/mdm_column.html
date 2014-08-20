@@ -10,25 +10,40 @@
                    <div class="col-md-2" >
                    </div>
                    <div class="col-md-4" >
-                       <input type="hidden" ng-model="mdm_objects.id" value="" >
+                       <input type="hidden" ng-model="mdm_column.id" value="" >
                    </div>
                 </div>
                 <div class="row">
                    <div class="col-md-2" >name
                    </div>
                    <div class="col-md-4" >
+                       <input type="text" ng-model="mdm_column.name" value="" >
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-2" >datatype
+                   </div>
+                   
+                   <div class="col-md-4" >
+                      <select ng-model="datatype_curr" ng-options="datatype.name for datatype in datatypes"></select><br>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-2" >precision
+                   </div>
+                   <div class="col-md-4" >
                        <input type="text" ng-model="mdm_objects.name" value="" >
                    </div>
                 </div>
                 <div class="row">
-                   <div class="col-md-2" >mdm_model_id
+                   <div class="col-md-2" >scale
                    </div>
-                   
                    <div class="col-md-4" >
-                      <select ng-model="datatype" ng-options="datatype.name for datatype in datatypes"></select><br>
+                       <input type="text" ng-model="mdm_objects.scale" value="" >
                    </div>
                 </div>
-            <button ng-click="update(mdm_objects)">SAVE</button>
+               
+            <button class="btn" ng-click="update(mdm_objects)">SAVE</button>
             <input type="hidden" ng-model="mdm_objects.ar_name"="mdm_objects" value="2013-05-29 15:25:00 UTC" >
             
             </form>
@@ -46,20 +61,6 @@
     </tab>
   </tabset>
 
-  <hr />
-
-  <tabset vertical="true" type="pills">
-    <tab heading="Vertical 1">Vertical content 1</tab>
-    <tab heading="Vertical 2">Vertical content 2</tab>
-  </tabset>
-
-  <hr />
-
-  <tabset justified="true">
-    <tab heading="Justified">Justified content</tab>
-    <tab heading="SJ">Short Labeled Justified content</tab>
-    <tab heading="Long Justified">Long Labeled Justified content</tab>
-  </tabset>
 </div>
 
 <script>
