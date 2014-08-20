@@ -61,6 +61,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     resources :mdm_data_types do
     end
+    resources :mdm_columns do
+    end
+    
     resources :mdm_models do
     end
     resources :mdm_objects do

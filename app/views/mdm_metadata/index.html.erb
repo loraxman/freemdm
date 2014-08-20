@@ -37,7 +37,7 @@
             })
             .when('/mdm_column/:mdmcolumnId', {
                 templateUrl : "<%= asset_path('assets/angular/views/mdm_column.html') %>",
-                controller  : 'mdmObjectsController'
+                controller  : 'mdmColumnsController'
             })
             
             .when('/contact/:contactId', {
@@ -83,6 +83,18 @@
                $scope.datatypes = data;              
         });
     });
+    
+    
+    freemdm.controller('mdmColumnsController', function($scope , $http, $routeParams) {
+       
+        $scope.message = 'Contact us! JK. This is just a demo.' + $routeParams.mdmobjectId;
+        $http({method: 'GET', url:'/api/mdm_columns/'+ $routeParams['mdmcolumnId']}).
+        success(function(data, status, headers, config) {
+               $scope.datatypes = data;              
+        });
+    });
+    
+    
     
     function TypeaheadCtrl($scope, $http) {
 
