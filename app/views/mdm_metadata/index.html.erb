@@ -75,10 +75,13 @@
     });
     
     
-    freemdm.controller('mdmObjectsController', function($scope, $routeParams) {
+    freemdm.controller('mdmObjectsController', function($scope , $http, $routeParams) {
        
         $scope.message = 'Contact us! JK. This is just a demo.' + $routeParams.mdmobjectId;
-        $scope.colors = [{"name":"red"},{"name":"blue"}];
+        $http({method: 'GET', url:'/api/mdm_data_types'}).
+        success(function(data, status, headers, config) {
+               $scope.datatypes = data;              
+        });
     });
     
     function TypeaheadCtrl($scope, $http) {
