@@ -4,7 +4,7 @@
 
   <tabset>
     <tab heading="Static title">
-           <div  ng-controller="mdmObjectsController">
+           <div  ng-controller="mdmColumnsController">
             <form novalidate class="simple-form container">
                 <div class="row">
                    <div class="col-md-2" >
@@ -25,7 +25,7 @@
                    </div>
                    
                    <div class="col-md-4" >
-                      <select ng-model="datatype_curr" ng-options="datatype.name for datatype in datatypes"></select><br>
+                      <select  ng-model="datatype_curr" ng-options="datatype.name for datatype in datatypes"></select><br>
                    </div>
                 </div>
                 <div class="row">
