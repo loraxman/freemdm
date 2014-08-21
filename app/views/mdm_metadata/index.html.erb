@@ -87,7 +87,6 @@
     
     freemdm.controller('mdmColumnsController', function($scope , $http, $routeParams) {
        
-        $scope.message = 'Contact us! JK. This is just a demo.' + $routeParams.mdmobjectId;
         $http({method: 'GET', url:'/api/mdm_data_types'}).
         success(function(data, status, headers, config) {
                $scope.datatypes = data; 
@@ -103,6 +102,7 @@
                for (var i=0;i<$scope.datatypes.length;i++ ) {
                     if (data.mdm_data_type.name == $scope.datatypes[i].name) {
                         $scope.datatype_curr = $scope.datatypes[i];
+                        
                         break;
                     }
                }
@@ -110,6 +110,29 @@
                console.log($scope.datatype_curr);
                           
         });
+        
+        $scope.update = function() {
+       //     $scope.mdm_column.datatype = $scope.datatype_curr;
+            console.log($scope.datatype_curr);
+            $scope.mdm_column.mdm_data_type_id = $scope.datatype_curr.id;
+            var rest_url='/api/mdm_columns/' + $scope.mdm_column.id;
+            // post here to the end point
+            $scope.loading = true;
+            console.log($scope.mdm_column);
+            $http({
+            method  : 'PUT',
+            url     : rest_url,
+            data    : $.param($scope.mdm_column),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+            })
+            .success(function(data) {
+                console.log("worked");
+                alert("saved");
+                $scope.loading = false;
+            });
+            
+        }
+           
     });
     
     
