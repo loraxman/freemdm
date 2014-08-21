@@ -3,6 +3,22 @@
     // create the module and name it freemdm
         // also include ngRoute for all our routing needs
     var freemdm = angular.module('freemdm', ['ngRoute','ui_bootstrap']);
+    freemdm.controller('mdmColumnsController', function($scope , $http, $routeParams) {
+       
+        $scope.message = 'Contact us! JK. This is just a demo.' + $routeParams.mdmobjectId;
+        $http({method: 'GET', url:'/api/mdm_data_types'}).
+        success(function(data, status, headers, config) {
+               $scope.datatypes = data; 
+               $scope.datatype_curr = $scope.datatypes[0];  
+               console.log($scope.datatype_curr);           
+        });
+        
+        $http({method: 'GET', url:'/api/mdm_columns/'+ $routeParams['mdmcolumnId']}).
+        success(function(data, status, headers, config) {
+               $scope.mdm_column = data;   
+              // console.log(data);           
+        });
+    });
 
     // configure our routes
     freemdm.config(function($routeProvider, $locationProvider) {
