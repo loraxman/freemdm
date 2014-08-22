@@ -102,7 +102,7 @@ class Persistor
   
     mdm_model.save
     generate_active_record(mdm_model,arconfig)
-  end
+   end
 	
 	
   def serialize_config(adapter,driver,host,username,password,database,urltemplate)
@@ -170,8 +170,34 @@ class Persistor
       klass.establish_connection(config.symbolize_keys)
     #  eval("class #{klass.name}; attr_accessible *columns;end")
     #
+      generate_column_meta(klass)
 
     end
   
+  end
+  
+  
+  def generate_column_meta(klassar)
+    klassar.columns_hash.each do |k,v|  
+      puts "#{k} => #{v.type};"
+      puts "*" * 80
+      begin
+        case v.type
+        when 'integer'
+        when 'smallint'
+          datatype = 'integer'
+        when 'timestamp'
+          datatype = 'datetime'
+        else
+          datatype = v.type
+        end
+        dtype = MdmDataType.find_by_name(datatype)
+      rescue
+        dtype = MdmDataType.first
+      end
+      mdmcolumn = MdmColumn.find_by_name(k)
+      mdmcolumn.mdm_data_type = dtype
+      mdmcolumn.save
+    end
   end
 end
