@@ -86,7 +86,7 @@
     
     
     freemdm.controller('mdmColumnsController', function($scope , $http, $routeParams) {
-       
+        $scope.datatype_curr = "";
         $http({method: 'GET', url:'/api/mdm_data_types'}).
         success(function(data, status, headers, config) {
                $scope.datatypes = data; 
@@ -101,19 +101,21 @@
                // optimize this .
                for (var i=0;i<$scope.datatypes.length;i++ ) {
                     if (data.mdm_data_type.name == $scope.datatypes[i].name) {
+                 
                         $scope.datatype_curr = $scope.datatypes[i];
-                        
-                        break;
+                         break;
                     }
                }
               // $scope.datatype_curr = data.mdm_data_type;  
                console.log($scope.datatype_curr);
                           
         });
-        
-        $scope.update = function() {
-       //     $scope.mdm_column.datatype = $scope.datatype_curr;
+        $scope.selectAction = function() {
             console.log($scope.datatype_curr);
+         };
+        $scope.update = function() {
+          ///  $scope.mdm_column.datatype = $scope.datatype_save;
+           console.log($scope.datatype_curr);
             $scope.mdm_column.mdm_data_type_id = $scope.datatype_curr.id;
             var rest_url='/api/mdm_columns/' + $scope.mdm_column.id;
             // post here to the end point

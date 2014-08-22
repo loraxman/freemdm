@@ -3,9 +3,9 @@
 <div ng-controller="TabsDemoCtrl">
 
   <tabset>
-    <tab heading="Static title">
+    <tab heading="Basic">
            <div  ng-controller="mdmColumnsController">
-            <form novalidate class="simple-form container">
+            <form novalidate class="simple-form container" ng-submit="update()">
                 <div class="row">
                    <div class="col-md-2" >
                    </div>
@@ -25,7 +25,7 @@
                    </div>
                    
                    <div class="col-md-4" >
-                      <select  ng-model="datatype_curr" ng-options="datatype.name for datatype in datatypes"></select><br>
+                      <select  ng-change="selectAction()" ng-model="datatype_curr" ng-options="datatype.name for datatype in datatypes"></select>
                    </div>
                 </div>
                 <div class="row">
@@ -42,23 +42,17 @@
                        <input type="text" ng-model="mdm_column.scale" value="" >
                    </div>
                 </div>
-               
-            <button class="btn" ng-click="update()">SAVE</button>
-             
+              <input type="hidden" name="text" value="{{ datatype_curr }}" />
+                <input type="submit" id="submit" class="btn" ></input>
+              
             </form>
           </div>
         
     </tab>
-    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
-      {{tab.content}}
-    </tab>
-    <tab select="alertMe()">
-      <tab-heading>
-        <i class="glyphicon glyphicon-bell"></i> Alert!
-      </tab-heading>
-      I've got an HTML heading, and a select callback. Pretty cool!
+    <tab heading="Advanced">
     </tab>
   </tabset>
+  
 
 </div>
 
