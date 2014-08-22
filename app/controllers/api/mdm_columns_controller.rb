@@ -18,6 +18,7 @@ class Api::MdmColumnsController < ApplicationController
     mdm_data_type = MdmDataType.find(params[:mdm_data_type_id])
     mdm_column.mdm_data_type = mdm_data_type
     mdm_column.precision = params[:precision]
+    mdm_column.scale = params[:scale]
     mdm_column.save!
     puts mdm_column.inspect
     
