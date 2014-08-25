@@ -63,14 +63,21 @@
   <%= javascript_include_tag "application" %>
   
    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
   <script>var freemdm = angular.module('freemdm', ['ui.bootstrap']);</script>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  
 
-<%= yield %>
-
+<div id="allofit" class="container">
+    <div id="twobar" class="row">  
+        <div id="side" class="col-lg-2">
+          <%= render "side" %>
+        </div>
+        <div id="side" class="col-lg-10">
+            <%= yield %>
+        </div>
+    </div>
+</div>
 </body>
 </html>
