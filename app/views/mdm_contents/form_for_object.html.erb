@@ -9,8 +9,18 @@
     	   </div>
     	   <div class="col-md-4" >
     	       <% if mdmcol.mdm_data_type.name == "datetime" %>
-                    <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
     	       
+                 <div class="row">
+                    <div class="col-md-6">
+                        <p class="input-group">
+                          <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="<%= @mdm_object.name %>.<%= mdmcol.name %>" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                          </span>
+                        </p>
+                    </div>
+                </div>
+     	       
     	       <% else %>
     	           <input type="text" ng-model="<%= @mdm_object.name %>.<%= mdmcol.name %>" value="<%= eval(icol) if @item %>" >
     	       <% end %>
@@ -27,8 +37,18 @@
   
   <script>
    function <%= @mdm_object.name%>Controller($scope,$http) {
-     <%= "$scope.#{@mdm_object.name} = " %> {};
-     <%= "$scope.#{@mdm_object.name}.ar_name = '#{@mdm_object.name}';".html_safe %>
+     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+     $scope.format = $scope.formats[0];
+     
+     $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+    
+        $scope.opened = true;
+    };
+    
+    <%= "$scope.#{@mdm_object.name} = " %> {};
+    <%= "$scope.#{@mdm_object.name}.ar_name = '#{@mdm_object.name}';".html_safe %>
     <% @mdm_object.mdm_columns.each do |mdmcol| %>
         <% if @item %>
            <% icol = eval("@item.#{mdmcol.name}") %>
@@ -65,7 +85,7 @@
       };
     
     $scope.initDate = new Date('2016-15-20');
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.formats = ['yyyy-MM-dd', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[0];
 
 
