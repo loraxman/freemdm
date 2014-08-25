@@ -11,7 +11,9 @@ margin-left: 50px;
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-
+#side {
+    background-color: #F5F6F7;
+}
 #datalist {
     max-height:70%;
     max-width: 200%;
