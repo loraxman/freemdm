@@ -1,9 +1,10 @@
   
 <div id="mdm_index"  >
    <h1><%= @mdm_object.name %></h1>
-    <div ng-controller="IndexObjectCtrl" ng-bind-html-unsafe="data" ng-click="form_detail('http://www-google.com')" >
-    
-      <table class="table  table-striped object_list" >
+   
+    <div  ng-controller="IndexObjectCtrl" ng-bind-html-unsafe="data" ng-click="form_detail('http://www-google.com')" >
+     <div class="pre-scrollable" id="datalist" >
+      <table class="table   table-striped object_list" >
         <tr >
             <% for col in @mdm_object.mdm_columns %>
                 <td><span style="font-weight:bold;"><%= col.name %></span></td>
@@ -15,7 +16,7 @@
         </tr>
         
        </table>
-       
+       </div>
          <pagination boundary-links="true" 
         max-size="3" 
         items-per-page="15"
