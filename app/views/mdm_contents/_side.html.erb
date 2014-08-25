@@ -1,6 +1,6 @@
-<strong>Pages</strong>
+<strong>Tables</strong>
 <ul>
-  <li><%= link_to "Tables", mdm_contents_path %></li>
-  <li><%= link_to "Products", mdm_contents_path %></li>
-  <li><%= @atest %></li>
+    <% for mdm_object in @mdm_objects %>
+        <li><%= link_to mdm_object.name, "?name=#{mdm_object.name}&page=1" %>
+    <% end %>
 </ul>

@@ -4,7 +4,9 @@ class MdmContentsController < ApplicationController
   before_filter :subdomain_view_path
    
    def subdomain_view_path
-     @atest = "testing"
+     
+     mdm_object= MdmObject.find_by_name(params[:name])
+     @mdm_objects = mdm_object.mdm_model.mdm_objects
    end  
    
    
