@@ -1,5 +1,13 @@
 class MdmContentsController < ApplicationController
 
+  
+  before_filter :subdomain_view_path
+   
+   def subdomain_view_path
+     @atest = "testing"
+   end  
+   
+   
   def new
     @mdm_object= MdmObject.new
 
