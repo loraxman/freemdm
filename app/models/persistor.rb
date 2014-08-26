@@ -123,7 +123,7 @@ class Persistor
     #and load them up in the Ruby VM
     #below NOTE! Need table created first for AR
      #AR provides a #column_names method that returns an array of column names
-    
+    useconnection = nil
     mdm_model.mdm_objects.each do |mdm_object|
        klass = Class.new ActiveRecord::Base do
          #establish_connection(config)
@@ -167,12 +167,13 @@ class Persistor
        #NOTE will need some adjustments to fit legacy tables to AR
       Object.const_set mdm_object.name.capitalize, klass
       puts config.symbolize_keys
-      klass.establish_connection(config.symbolize_keys)
+      klass.establish_connection(config.symbolize_keys) 
+      useconnection = klass.connection if !useconnection
     #  eval("class #{klass.name}; attr_accessible *columns;end")
     #
       generate_column_meta(klass)
 
-      klass.connection.close
+      klass.connection.jdbc_connection.close
     end
   
   end
