@@ -172,6 +172,7 @@ class Persistor
     #
       generate_column_meta(klass)
 
+      klass.connection.close
     end
   
   end

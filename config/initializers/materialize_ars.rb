@@ -9,11 +9,15 @@ Rails.application.config.after_initialize do
       models = MdmModel.all
       
       models.each do | model|
-        if model.connect_src
-          config = JSON.parse(model.connect_src)
-          puts config.inspect
-          puts "*" * 80
-          p.generate_active_record(model, config)
+        begin
+          if model.connect_src
+            config = JSON.parse(model.connect_src)
+            puts config.inspect
+            puts "*" * 80
+            p.generate_active_record(model, config)
+          end
+        rescue
+          puts "db issue"
         end
       end
 end
